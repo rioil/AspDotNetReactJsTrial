@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from '../../../../node_modules/axios/index';
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -51,9 +52,13 @@ export class FetchData extends Component {
     );
   }
 
-  async populateWeatherData() {
-    const response = await fetch('weatherforecast');
-    const data = await response.json();
-    this.setState({ forecasts: data, loading: false });
+  populateWeatherData() {
+    axios.get('weatherforecast')
+      .then(response => {
+        this.setState({ forecasts: response.data, loading: false });
+      })
+      .catch(() => {
+        alert('error!');
+      });
   }
 }
